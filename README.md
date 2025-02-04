@@ -34,12 +34,6 @@ conda activate sleepfm_env
 
 This codebase will serve as a framework that you can adapt to your dataset for pretraining and testing. Below, we outline the steps to pretrain and adapt the model on a publicly available dataset called [MESA](https://sleepdata.org/datasets/mesa). Please keep in mind that this dataset is small and will most likely not yield optimal results.
 
-## Downloading Dataset
-
-We are working with MESA dataset as a usecase here. 
-
-- Follow the [link](https://sleepdata.org/datasets/mesa). You may need to create a physionet account. 
-
 **Note**: Please make sure to download the dataset with in your local path, with dataset name, `mesa`. Later on, we will need this path. 
 
 
