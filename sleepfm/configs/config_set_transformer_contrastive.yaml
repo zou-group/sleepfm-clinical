@@ -1,0 +1,47 @@
+# model config
+seed: 42
+model: 'SetTransformer'
+in_channels: 1
+batch_size: 32
+epochs: 2
+lr: 0.001
+lr_step_period: 2
+gamma: 0.1
+temperature: 0.0
+momentum: 0.9
+num_workers: 8
+embed_dim: 128
+num_heads: 8
+num_layers: 3
+pooling_head: 8
+dropout: 0.3
+
+# after the preprocessing step, make sure to point this to your data folder
+data_path: '/scratch/users/rthapa84/psg_fm/data/data_new_128/'
+split_path: '../configs/dataset_split.json'
+save_path: '../checkpoints/'
+weight_decay: 0.0
+
+# contrastive learning objective you want. pairwise vs. leave_one_out
+mode: "leave_one_out"
+save_iter: 5000
+eval_iter: 5000
+log_interval: 100
+use_wandb: false
+
+# dataloader configs
+BAS_CHANNELS: 10
+RESP_CHANNELS: 7
+EKG_CHANNELS: 2
+EMG_CHANNELS: 4
+
+# specify some specific count for max_files during debuggin. null if you want to run it for all dataset
+max_files: 100
+val_size: 100
+sampling_duration: 30
+sampling_freq: 128
+patch_size: 3840
+
+# modalities you want to train on. Select at least one
+modality_types: ["BAS", "RESP", "EKG", "EMG"]
+

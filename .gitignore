@@ -6,6 +6,13 @@ __pycache__/
 # C extensions
 *.so
 
+*checkpoints/*
+*logs/*
+*wandb/*
+
+sleepfm/checkpoints
+sleepfm/pipeline/logs
+
 # Distribution / packaging
 .Python
 build/
