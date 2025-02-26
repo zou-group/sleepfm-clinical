@@ -1,7 +1,7 @@
 # SleepFM-Clinical
 
 ## 🔥 News
-- [Our paper](todo) will be out on bioarxiv soon.
+- [Our paper](https://www.medrxiv.org/content/10.1101/2025.02.04.25321675v1) will be out on bioarxiv soon.
 
 ## 📖 Introduction
 
