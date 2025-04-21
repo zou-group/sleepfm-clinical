@@ -50,7 +50,7 @@ def cox_ph_loss(hazards, event_times, is_event):
 
 
 @click.command("finetune_diagnosis")
-@click.option("--config_path", type=str, default='../configs/config_set_transformer_diagnosis_finetune_coxph.yaml')
+@click.option("--config_path", type=str, default='../configs/config_finetune_diagnosis_coxph.yaml')
 @click.option("--channel_groups_path", type=str, default='../configs/channel_groups.json')
 @click.option("--checkpoint_path", type=str, default=None)
 @click.option("--split_path", type=str, default=None)
