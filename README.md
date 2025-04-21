@@ -29,8 +29,6 @@ conda activate sleepfm_env
 
 # 👩‍💻 Usage
 
-*This is a research code. Here, we provide our pretraining pipeline with a publicly available dataset, as we cannot release our internal pretraining dataset at the moment.*
-
 This codebase will serve as a framework that you can adapt to your dataset for pretraining and testing. Below, we outline the steps to pretrain and adapt the model on a publicly available dataset called [MESA](https://sleepdata.org/datasets/mesa). Please keep in mind that this dataset is small and will most likely not yield optimal results.
 
 **Note**: Please make sure to download the dataset with in your local path, with dataset name, `mesa`. Later on, we will need this path. 
