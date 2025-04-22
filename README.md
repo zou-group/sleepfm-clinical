@@ -18,7 +18,7 @@ Sleep is a fundamental biological process with broad implications for physical a
 
 Follow the steps below to set up an environment for running **SleepFM**.
 
-We recommend using **Python 3.10**. All required packages and their specific versions are listed in the `requirements.txt` file. Installing all dependencies should take only **2–3 minutes**.
+We recommend using **Python 3.10**. All required packages and their specific versions are listed in the [requirements.txt](https://github.com/zou-group/sleepfm-clinical/blob/main/requirements.txt) file. Installing all dependencies should take only **2–3 minutes**.
 
 ### 🖥️ System Requirements
 
