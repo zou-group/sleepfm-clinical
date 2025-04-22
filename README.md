@@ -16,7 +16,14 @@ Sleep is a fundamental biological process with broad implications for physical a
 
 # 💿 Installation
 
-Please use the following steps to create an environment for running SleepFM
+Follow the steps below to set up an environment for running **SleepFM**.
+
+We recommend using **Python 3.10**. All required packages and their specific versions are listed in the `requirements.txt` file. Installing all dependencies should take only **2–3 minutes**.
+
+All model pretraining and fine-tuning were conducted on **NVIDIA A40** and **A100 GPUs**. However, with a smaller batch size, it should be feasible to run the model on GPUs with **12–16 GB of memory**.
+
+This codebase includes a demo using the **MESA** dataset. Pretraining the model on MESA for one epoch takes approximately **1 hour on an A40**, while fine-tuning for one epoch takes **less than a minute**. Please note that MESA is a much smaller dataset compared to the full dataset used in our study.
+
 
 ```bash
 git clone https://github.com/zou-group/sleepfm-clinical.git
