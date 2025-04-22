@@ -20,9 +20,23 @@ Follow the steps below to set up an environment for running **SleepFM**.
 
 We recommend using **Python 3.10**. All required packages and their specific versions are listed in the `requirements.txt` file. Installing all dependencies should take only **2–3 minutes**.
 
-All model pretraining and fine-tuning were conducted on **NVIDIA A40** and **A100 GPUs**. However, with a smaller batch size, it should be feasible to run the model on GPUs with **12–16 GB of memory**.
+### 🖥️ System Requirements
 
-This codebase includes a demo using the **MESA** dataset. Pretraining the model on MESA for one epoch takes approximately **1 hour on an A40**, while fine-tuning for one epoch takes **less than a minute**. Please note that MESA is a much smaller dataset compared to the full dataset used in our study.
+SleepFM was developed and tested on Linux systems with the following configuration:
+
+- **GPU**: NVIDIA A40, A100, and RTX 2080 Ti
+- **CUDA**: 12.4
+- **CPU**: 8 cores recommended
+- **RAM**: At least 32 GB
+- **OS**: CentOS Linux 7.9.2009 (Core)
+
+Although optimized for **A40/A100** GPUs, the model can be run on smaller GPUs (e.g., **RTX 2080 Ti**) by reducing the batch size. For smooth performance during preprocessing and training, we recommend using at least **8 CPU cores**.
+
+### 🚀 Demo Run
+
+This codebase includes a demo using the **MESA** dataset. On an **NVIDIA A40**, pretraining on MESA for one epoch takes approximately **1 hour**, and fine-tuning for one epoch takes about **1 minute**. Note that **MESA is significantly smaller** than the full dataset used in our main experiments.
+
+
 
 
 ```bash
