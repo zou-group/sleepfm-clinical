@@ -2,7 +2,7 @@
 seed: 42
 model: 'SetTransformer'
 in_channels: 1
-batch_size: 32
+batch_size: 128
 epochs: 2
 lr: 0.001
 lr_step_period: 2
@@ -12,7 +12,7 @@ momentum: 0.9
 num_workers: 8
 embed_dim: 128
 num_heads: 8
-num_layers: 3
+num_layers: 6
 pooling_head: 8
 dropout: 0.3
 
@@ -36,11 +36,11 @@ EKG_CHANNELS: 2
 EMG_CHANNELS: 4
 
 # specify some specific count for max_files during debuggin. null if you want to run it for all dataset
-max_files: 100
+max_files: null
 val_size: 100
-sampling_duration: 30
+sampling_duration: 5
 sampling_freq: 128
-patch_size: 3840
+patch_size: 640
 
 # modalities you want to train on. Select at least one
 modality_types: ["BAS", "RESP", "EKG", "EMG"]
