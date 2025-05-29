@@ -48,12 +48,12 @@ def cox_ph_loss(hazards, event_times, is_event):
     return total_loss
 
 
-@click.command("finetune_diagnosis")
+@click.command("finetune_disease_prediction")
 @click.option("--config_path", type=str, default='../configs/config_finetune_disease_prediction.yaml')
 @click.option("--channel_groups_path", type=str, default='../configs/channel_groups.json')
 @click.option("--checkpoint_path", type=str, default=None)
 @click.option("--split_path", type=str, default=None)
-def finetune_diagnosis(config_path, channel_groups_path, checkpoint_path, split_path):
+def finetune_disease_prediction(config_path, channel_groups_path, checkpoint_path, split_path):
     # Load configuration
     config = load_config(config_path)
     channel_groups = load_data(channel_groups_path)
@@ -107,9 +107,6 @@ def finetune_diagnosis(config_path, channel_groups_path, checkpoint_path, split_
     logger.info("Loaded configuration file")
     logger.info(f"Batch Size {config['batch_size']}")
     logger.info(f"Processing for sleep stage {sleep_stages}")
-
-    # config['batch_size'] = 4
-    # config['use_wandb'] = False
 
     # Set device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -320,4 +317,4 @@ def finetune_diagnosis(config_path, channel_groups_path, checkpoint_path, split_
         model.train()
 
 if __name__ == "__main__":
-    finetune_diagnosis()
+    finetune_disease_prediction()

@@ -19,13 +19,13 @@ from models.models import DiagnosisFinetuneFullLSTMCOXPH, DiagnosisFinetuneFullL
 from tqdm import tqdm
 
 
-@click.command("evaluate_diagnosis_coxph")
+@click.command("evaluate_disease_prediction")
 @click.option("--config_path", type=str, default='../configs/config_finetune_disease_prediction.yaml')
 @click.option("--channel_groups_path", type=str, default='../configs/channel_groups.json' )
 @click.option("--output_path", type=str, required=True)
 @click.option("--split", type=str, default="test")
 @click.option("--dataset", type=str, default=None)
-def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, split, dataset):
+def evaluate_disease_prediction(config_path, channel_groups_path, output_path, split, dataset):
     # Load configuration
     config = load_config(config_path)
     channel_groups = load_data(channel_groups_path)
@@ -34,7 +34,6 @@ def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, spli
         config = load_data(os.path.join(output_path, "config.json"))
 
     config["model_params"]["dropout"] = 0.0
-    config["batch_size"] = 4
 
     # Set up logging
     logger.add("logs/evaluation_{time}.log", rotation="10 MB")
@@ -86,11 +85,9 @@ def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, spli
 
     # Load checkpoint
     checkpoint_path = os.path.join(output_path, "best.pth")
-    # checkpoint_path = os.path.join(output_path, "checkpoint.pth")
     if os.path.isfile(checkpoint_path):
         logger.info(f"Loading checkpoint '{checkpoint_path}'")
         checkpoint = torch.load(checkpoint_path)
-        # model.load_state_dict(checkpoint["model_state_dict"])
         model.load_state_dict(checkpoint)
         logger.info("Checkpoint loaded successfully")
     else:
@@ -113,9 +110,7 @@ def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, spli
     num_workers = 4
     logger.info(f'Number of workers: {num_workers}')
 
-    # batch_size = max(config.get('batch_size', 1), torch.cuda.device_count())
     batch_size = config.get('batch_size', 1)
-    # batch_size = 2
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, collate_fn=collate_fn)
 
     logger.info(f'Data Loaded!')
@@ -168,4 +163,4 @@ def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, spli
 
 
 if __name__ == "__main__":
-    evaluate_diagnosis_coxph()
+    evaluate_disease_prediction()

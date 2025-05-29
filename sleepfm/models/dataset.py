@@ -251,9 +251,6 @@ class SleepEventClassificationDataset(Dataset):
         hdf5_path, label_path, start_index = self.index_map[idx]
         labels_df = pd.read_csv(label_path)
         labels_df["StageNumber"] = labels_df["StageNumber"].replace(-1, 0)
-
-        #### Temp
-        # labels_df["StageNumber"] = labels_df["StageNumber"].apply(lambda x: 1 if x > 0 else 0)
         
         y_data = labels_df["StageNumber"].to_numpy()
 
@@ -404,7 +401,6 @@ def sleep_event_finetune_full_collate_fn(batch):
         event_time_df = event_time_df.set_index('Study ID')
     
         hdf5_paths = load_data(config["split_path"])[split]
-        # study_ids = set(is_event_df.index)
         study_ids = set(is_event_df.index) & set(demo_labels_df.index)
 
         hdf5_paths = [f for f in hdf5_paths if os.path.exists(f)]
@@ -430,7 +426,6 @@ def sleep_event_finetune_full_collate_fn(batch):
             event_time_row = list(event_time_df.loc[study_id].values)
             demo_feats = list(demo_labels_df.loc[study_id].values)
 
-            # values = [[event_time, is_event] for is_event, event_time in zip(is_event_row, event_time_row)]
             labels_dict[study_id] = {
                 "is_event": is_event_row,
                 "event_time": event_time_row, 
@@ -540,12 +535,6 @@ class DiagnosisFinetuneFullCOXPHDataset(Dataset):
         hdf5_paths = load_data(config["split_path"])[split]
         study_ids = set(is_event_df.index)
 
-        # hdf5_paths = [f for f in hdf5_paths if os.path.exists(f)]
-        # hdf5_paths = [f for f in hdf5_paths if f.split("/")[-1].split(".")[0] in study_ids]
-
-        # hdf5_paths = [os.path.join(config["model_path"], config["dataset"], item.split("/")[-1]) for item in hdf5_paths]
-        # hdf5_paths = [f for f in hdf5_paths if os.path.exists(f)]
-
         hdf5_paths = [f for f in hdf5_paths if os.path.exists(f)]
         hdf5_paths = [f for f in hdf5_paths if os.path.basename(f).split(".")[0] in study_ids]
 
@@ -568,7 +557,6 @@ class DiagnosisFinetuneFullCOXPHDataset(Dataset):
             is_event_row = list(is_event_df.loc[study_id].values)
             event_time_row = list(event_time_df.loc[study_id].values)
 
-            # values = [[event_time, is_event] for is_event, event_time in zip(is_event_row, event_time_row)]
             labels_dict[study_id] = {
                 "is_event": is_event_row,
                 "event_time": event_time_row
@@ -699,7 +687,6 @@ class DiagnosisFinetuneDemoOnlyDataset(Dataset):
             event_time_row = list(event_time_df.loc[study_id].values)
             demo_feats = list(demo_labels_df.loc[study_id].values)
 
-            # values = [[event_time, is_event] for is_event, event_time in zip(is_event_row, event_time_row)]
             labels_dict[study_id] = {
                 "is_event": is_event_row,
                 "event_time": event_time_row, 
