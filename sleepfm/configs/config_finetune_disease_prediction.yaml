@@ -1,0 +1,56 @@
+# model config
+model_params:
+  embed_dim: 128
+  num_heads: 8
+  num_layers: 2
+  num_classes: 6
+  pooling_head: 8
+  dropout: 0.3
+  max_seq_length: 6480
+
+chunk_size: 60
+seed: 20
+
+model: 'DiagnosisFinetuneFullLSTMCOXPHWithDemo'
+# model: 'DiagnosisFinetuneFullLSTMCOXPH'
+# model: 'DiagnosisFinetuneDemoOnlyEmbed'
+
+dataset: 'ssc_stanford'
+# dataset: 'shhs'
+
+batch_size: 32
+epochs: 21
+lr: 0.001
+num_workers: 12
+model_path: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/08_26_24/models/SetTransformer/leave_one_out/test_run_20240828_161247'
+
+# For SSC Stanford finetuning
+split_path: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/10_14_28/data_splits/combined_dataset_split_10_14_28.json'
+labels_path: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/10_14_28/diagnosis_data/phewas_tte_prediction_10_18_24_num_labels_1065'
+
+# For SHHS specific finetuning
+# split_path: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/10_14_28/data_splits/shhs_dataset_split_10_14_28.json'
+# labels_path: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/10_14_28/diagnosis_data/shhs_phewas_tte_prediction_10_18_24_num_labels_6'
+
+demo_labels_path: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/10_14_28/diagnosis_data/combined_demo_stats_normalized_10_14_24.csv'
+sleep_stages_labels: '/oak/stanford/groups/jamesz/rthapa84/psg_fm/10_14_28/annotations/sleep_stages'
+
+
+# empty if want to use all stages
+sleep_stages: ""
+# sleep_stages: ["Stage1", "Stage2"]
+# sleep_stages: ["Wake", "Stage1", "Stage2", "Stage3", "REM"]
+
+save_iter: 250
+eval_iter: 250
+log_interval: 10
+accumulation_steps: 16
+use_wandb: false
+
+# dataloader configs
+max_files: null
+sampling_freq: 128
+
+max_channels: 4
+modality_types: ["BAS", "RESP", "EKG", "EMG"]
+

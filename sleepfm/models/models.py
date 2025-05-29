@@ -216,3 +216,153 @@ class SleepEventLSTMClassifier(nn.Module):
         return x, mask[:, 0, :]  # Return mask along temporal dimension
 
 
+class DiagnosisFinetuneFullLSTMCOXPH(nn.Module):
+    def __init__(self, embed_dim, num_heads, num_layers, num_classes, pooling_head=4, dropout=0.1, max_seq_length=128):
+        super(DiagnosisFinetuneFullLSTMCOXPH, self).__init__()
+        self.spatial_pooling = AttentionPooling(embed_dim, num_heads=pooling_head, dropout=dropout)
+
+        if max_seq_length is None:
+            max_seq_length = 20000
+        self.positional_encoding = PositionalEncoding(max_seq_length, embed_dim)
+        self.layer_norm = nn.LayerNorm(embed_dim)
+
+        self.lstm = nn.LSTM(
+            input_size=embed_dim, 
+            hidden_size=embed_dim // 2, 
+            num_layers=num_layers, 
+            batch_first=True, 
+            bidirectional=True
+        )
+
+        self.disease_heads = nn.Linear(embed_dim, num_classes)
+
+    def forward(self, x, mask):
+        B, C, S, E = x.shape
+        
+        # Rearrange for spatial pooling
+        x = rearrange(x, 'b c s e -> (b s) c e')
+
+        mask_spatial = mask[:, :, 0]
+        mask_spatial = mask_spatial.unsqueeze(1).expand(-1, S, -1)
+        mask_spatial = rearrange(mask_spatial, 'b t c -> (b t) c')
+
+        # Ensure the mask is boolean
+        mask_spatial = mask_spatial.to(dtype=torch.bool)
+
+        # Apply spatial pooling
+        x = self.spatial_pooling(x, mask_spatial)
+        x = x.view(B, S, E)
+
+        # Rearrange mask for temporal pooling
+        mask_temporal = mask[:, 0, :]  # Use the mask along the temporal dimension
+
+        # Compute the lengths for packing based on the mask
+        # Since padding tokens are 1, invert the mask to count valid tokens
+        lengths = (mask_temporal == 0).sum(dim=1).cpu()
+
+        # Pack the sequence for LSTM
+        packed_x = rnn_utils.pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
+
+        # Pass the packed sequence through the LSTM
+        packed_out, _ = self.lstm(packed_x)
+
+        # Unpack the sequence
+        x, _ = rnn_utils.pad_packed_sequence(packed_out, batch_first=True)
+
+        # Apply mean pooling only over valid lengths
+        x = torch.stack([x[i, :lengths[i]].mean(dim=0) for i in range(B)])
+
+        # Apply the disease head to get hazards
+        hazards = self.disease_heads(x)
+        
+        return hazards
+
+
+class DiagnosisFinetuneFullLSTMCOXPHWithDemo(nn.Module):
+    def __init__(self, embed_dim, num_heads, num_layers, num_classes, pooling_head=4, dropout=0.1, max_seq_length=128):
+        super(DiagnosisFinetuneFullLSTMCOXPHWithDemo, self).__init__()
+        self.spatial_pooling = AttentionPooling(embed_dim, num_heads=pooling_head, dropout=dropout)
+
+        if max_seq_length is None:
+            max_seq_length = 20000
+        self.positional_encoding = PositionalEncoding(max_seq_length, embed_dim)
+        self.layer_norm = nn.LayerNorm(embed_dim)
+
+        self.lstm = nn.LSTM(
+            input_size=embed_dim, 
+            hidden_size=embed_dim // 2, 
+            num_layers=num_layers, 
+            batch_first=True, 
+            bidirectional=True
+        )
+        self.demo_embedding = nn.Sequential(
+            nn.Linear(2, embed_dim // 4),
+            nn.ReLU(),
+            nn.Dropout(dropout)
+        )
+
+        # Update the input size of the disease head to account for embedded demo features
+        self.disease_heads = nn.Linear(embed_dim + embed_dim // 4, num_classes)  # embed_dim // 4 from demo features
+
+    def forward(self, x, mask, demo_features):
+        B, C, S, E = x.shape
+        
+        # Rearrange for spatial pooling
+        x = rearrange(x, 'b c s e -> (b s) c e')
+
+        mask_spatial = mask[:, :, 0]
+        mask_spatial = mask_spatial.unsqueeze(1).expand(-1, S, -1)
+        mask_spatial = rearrange(mask_spatial, 'b t c -> (b t) c')
+
+        # Ensure the mask is boolean
+        mask_spatial = mask_spatial.to(dtype=torch.bool)
+
+        # Apply spatial pooling
+        x = self.spatial_pooling(x, mask_spatial)
+        x = x.view(B, S, E)
+
+        # Rearrange mask for temporal pooling
+        mask_temporal = mask[:, 0, :]  # Use the mask along the temporal dimension
+
+        # Compute the lengths for packing based on the mask
+        lengths = (mask_temporal == 0).sum(dim=1).cpu()
+
+        # Pack the sequence for LSTM
+        packed_x = rnn_utils.pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
+
+        # Pass the packed sequence through the LSTM
+        packed_out, _ = self.lstm(packed_x)
+
+        # Unpack the sequence
+        x, _ = rnn_utils.pad_packed_sequence(packed_out, batch_first=True)
+
+        # Apply mean pooling only over valid lengths
+        x = torch.stack([x[i, :lengths[i]].mean(dim=0) for i in range(B)])
+
+        # Embed the demo features
+        demo_embed = self.demo_embedding(demo_features)  # (B, embed_dim // 4)
+
+        # Concatenate the demo features with the LSTM output
+        x = torch.cat([x, demo_embed], dim=1)  # (B, embed_dim + embed_dim // 4)
+
+        # Apply the disease head to get hazards
+        hazards = self.disease_heads(x)
+        
+        return hazards
+
+
+class DiagnosisFinetuneDemoOnlyEmbed(nn.Module):
+    def __init__(self, embed_dim, num_classes, dropout=0.3):
+        super(DiagnosisFinetuneDemoOnlyEmbed, self).__init__()
+
+        self.demo_embedding = nn.Sequential(
+            nn.Linear(4, embed_dim // 4),
+            nn.ReLU(),
+            nn.Dropout(dropout)
+        )
+        self.disease_heads = nn.Linear(embed_dim // 4, num_classes)
+
+    def forward(self, demo_features):
+        demo_embed = self.demo_embedding(demo_features)
+        hazards = self.disease_heads(demo_embed)
+        return hazards
