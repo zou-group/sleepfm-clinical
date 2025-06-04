@@ -67,9 +67,9 @@ PSG files may be stored in different formats. Here, we specifically provide scri
 
 Note that we provide with dataset split as json file here: `configs/dataset_split.json`. We also provide with different channel groups within a modality: `configs/channel_groups.json`.
 
-- **Step 1:** `pipeline/pretrain.py`
+- **Step 1:** `sleepfm/pipeline/pretrain.py`
   - This script has our main pretraining config. Its corresponding config file is inside `configs/config_set_transformer_contrastive.yaml`, where you will set all the parameters and data path. This step will roughly take about an hour for an epoch on `MESA`. 
-- **Step 2:** `pipeline/generate_embeddings.py`
+- **Step 2:** `sleepfm/pipeline/generate_embeddings.py`
   - After pretraining our model, we want to generate the embeddings for train/valid/test so that we can train a model for downstream classification. We do sleep stage classification here. This step will roughly take few minutes on `MESA`. 
 
 ## Evaluation
@@ -87,11 +87,17 @@ Start,Stop,StageName,StageNumber
 
 These labels files are stored inside a folder as such `<path>/mesa/mesa-sleep-0001.csv`. Note that `mesa-sleep-0001` is the filename that should correspond with the original `.EDF` file and `.hdf5` files. 
 
-- **Step 3:** `finetune_sleep_staging.py`
+- **Step 3:** `sleepfm/pipelinefinetune_sleep_staging.py`
   - This will finetune the pretrained model on sleep stage classification task. Please make sure to check config `configs/config_finetune_sleep_events.yaml`. This step roughly takes less than a minute on `MESA`. 
 
-- **Step 4:** `evaluate_sleep_staging.py`
-  - This will evaluate the model on test set. This step only takes few seconds on `MESA`. 
+- **Step 4:** `sleepfm/pipeline/evaluate_sleep_staging.py`
+  - This will evaluate the model on test set. This step only takes few seconds on `MESA`.
+ 
+
+For disease prediction task:
+
+- **Step 3:** `sleepfm/pipeline/finetune_diagnosis_coxph.py`
+  - This will finetune the pretrained model on disease prediction task, using CoxPH loss function. Note that you will need to provide your own data, and set up dataloaders. Please see corresponding config `sleepfm/configs/config_finetune_diagnosis_coxph.yaml`
 
 
 ## BibTeX
