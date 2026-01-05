@@ -19,3 +19,5 @@ torch==2.0.1
 torchvision==0.15.2
 transformers==4.33.3
 wandb==0.16.4
+mne==1.7.0
+seaborn==0.13.2

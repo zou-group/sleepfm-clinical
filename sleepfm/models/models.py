@@ -366,3 +366,62 @@ class DiagnosisFinetuneDemoOnlyEmbed(nn.Module):
         demo_embed = self.demo_embedding(demo_features)
         hazards = self.disease_heads(demo_embed)
         return hazards
+
+
+class DiagnosisFullSupervisedLSTMCOXPHWithDemoEmbed(nn.Module):
+    def __init__(self, in_channels, patch_size, embed_dim, num_heads, num_layers, num_classes,
+                 pooling_head=4, dropout=0.1, max_seq_length=128):
+        super(DiagnosisFullSupervisedLSTMCOXPHWithDemoEmbed, self).__init__()
+
+        # Patch embedding layer (Tokenizer)
+        self.patch_embedding = Tokenizer(input_size=patch_size, output_size=embed_dim)
+        self.spatial_pooling = AttentionPooling(embed_dim, num_heads=pooling_head, dropout=dropout)
+
+        # LSTM for temporal sequence modeling
+        self.lstm = nn.LSTM(
+            input_size=embed_dim, 
+            hidden_size=embed_dim // 2, 
+            num_layers=num_layers, 
+            batch_first=True, 
+            bidirectional=True
+        )
+
+        # Linear layer for demographic features
+        # self.demo_embedding = nn.Linear(2, embed_dim // 4)
+
+        self.demo_embedding = nn.Sequential(
+            nn.Linear(2, embed_dim // 4),
+            nn.ReLU(),
+            nn.Dropout(dropout)
+        )
+        
+        # Disease head for final prediction
+        self.disease_heads = nn.Linear(embed_dim + embed_dim // 4, num_classes)
+        self.patch_size = patch_size
+
+    def forward(self, x, mask, demo_features):
+        # Step 1: Patch Embedding
+        x = self.patch_embedding(x)  # Input: raw data -> Output: (B, C, S, E)
+        B, C, S, E = x.shape
+
+        # Step 2: Spatial Pooling
+        x = rearrange(x, 'b c s e -> (b s) c e')
+        mask_spatial = mask[:, :, 0]
+        mask_spatial = mask_spatial.unsqueeze(1).expand(-1, S, -1)
+        mask_spatial = rearrange(mask_spatial, 'b t c -> (b t) c').to(dtype=torch.bool)
+        x = self.spatial_pooling(x, mask_spatial)
+        x = x.view(B, S, E)
+
+        # Step 3: Temporal Processing (LSTM)
+        x, _ = self.lstm(x) 
+        x = x.mean(dim=1)
+
+        # Step 4: Demographic Embedding
+        demo_embed = self.demo_embedding(demo_features)  # Shape: (B, embed_dim // 4)
+
+        # Step 5: Concatenate and Predict
+        x = torch.cat([x, demo_embed], dim=1)  # Shape: (B, embed_dim + embed_dim // 4)
+        hazards = self.disease_heads(x)
+        return hazards
+
+
