@@ -4,7 +4,7 @@
 
 ### 📰 Publication
 - **SleepFM** has been published in **Nature Medicine**  
-  👉 https://www.medrxiv.org/content/10.1101/2025.02.04.25321675v1
+  👉 https://doi.org/10.1038/s41591-025-04133-4
 
 ### 🤖 Model Releases
 - **Pretrained Base Model**  
