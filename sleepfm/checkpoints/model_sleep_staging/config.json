@@ -1,0 +1,36 @@
+{
+    "model_params": {
+        "embed_dim": 128,
+        "num_heads": 4,
+        "num_layers": 1,
+        "num_classes": 5,
+        "pooling_head": 4,
+        "dropout": 0.3,
+        "max_seq_length": 8196
+    },
+    "max_channels": 4,
+    "context": -1,
+    "seed": 42,
+    "model": "SleepEventLSTMClassifier",
+    "dataset": "ssc_stanford,mesa,mros,shhs",
+    "batch_size": 16,
+    "epochs": 20,
+    "lr": 0.001,
+    "num_workers": 8,
+    "model_path": "../sleepfm/checkpoints/model_base/best.pt",
+    "split_path": "../sleepfm/configs/dataset_split.json",
+    "labels_path": "path/to/sleep/staging/labels",
+    "save_iter": 1000,
+    "eval_iter": 1000,
+    "log_interval": 10,
+    "accumulation_steps": 16,
+    "use_wandb": false,
+    "max_files": null,
+    "sampling_freq": 128,
+    "channel_like": [
+        "BAS",
+        "RESP",
+        "EKG",
+        "EMG"
+    ]
+}

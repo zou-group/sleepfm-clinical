@@ -1,0 +1,37 @@
+{
+    "model_params": {
+        "embed_dim": 128,
+        "num_heads": 8,
+        "num_layers": 2,
+        "num_classes": 1065,
+        "pooling_head": 8,
+        "dropout": 0.3,
+        "max_seq_length": 6480
+    },
+    "max_channels": 4,
+    "chunk_size": 60,
+    "seed": 42,
+    "model": "DiagnosisFinetuneFullLSTMCOXPHWithDemo",
+    "dataset": "ssc_stanford",
+    "batch_size": 32,
+    "epochs": 40,
+    "lr": 0.001,
+    "num_workers": 7,
+    "model_path": "sleepfm/checkpoints/model_base",
+    "split_path": "sleepfm/configs/dataset_split.json",
+    "labels_path": "path/to/time/to/event/files",
+    "demo_labels_path": "notebooks/demo_age_gender.csv",
+    "save_iter": 100,
+    "eval_iter": 100,
+    "log_interval": 10,
+    "accumulation_steps": 16,
+    "use_wandb": false,
+    "max_files": null,
+    "sampling_freq": 128,
+    "modality_types": [
+        "BAS",
+        "RESP",
+        "EKG",
+        "EMG"
+    ]
+}

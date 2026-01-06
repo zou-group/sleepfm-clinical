@@ -10,11 +10,11 @@ __pycache__/
 *.pickle
 *.pkl
 
-*checkpoints/*
+# *checkpoints/*
 *logs/*
 *wandb/*
 
-sleepfm/checkpoints
+# sleepfm/checkpoints
 sleepfm/pipeline/logs
 
 # Distribution / packaging
