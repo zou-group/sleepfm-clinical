@@ -71,12 +71,10 @@ class SetTransformerDataset(Dataset):
             channel_like += channel_groups[modality_type]
         channel_like = set(channel_like)
 
-        data_path = config["data_path"]
-
         if len(hdf5_paths) == 0:
+            data_path = config["data_path"]
             hdf5_paths = load_data(config["split_path"])[split]
-        
-        hdf5_paths = [os.path.join(data_path, path) for path in hdf5_paths]
+            hdf5_paths = [os.path.join(data_path, path) for path in hdf5_paths]
 
         if split in ["pretrain"]:
             random.shuffle(hdf5_paths)

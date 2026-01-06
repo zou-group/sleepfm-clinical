@@ -1,11 +1,31 @@
 # SleepFM-Clinical
 
-## 🔥 News
-- [Our paper](https://www.medrxiv.org/content/10.1101/2025.02.04.25321675v1) is out on bioarxiv.
+## 🔥 News & Updates
+
+### 📰 Publication
+- **SleepFM** has been published in **Nature Medicine**  
+  👉 https://doi.org/10.1038/s41591-025-04133-4
+
+### 🤖 Model Releases
+- **Pretrained Base Model**  
+  `sleepfm/checkpoints/model_base`
+- **Finetuned Disease Prediction Model**  
+  `sleepfm/checkpoints/model_diagnosis`
+- **Finetuned Sleep Staging Model**  
+  `sleepfm/checkpoints/model_sleep_staging`
+
+### 📊 Dataset Release
+- **Stanford Sleep Dataset**  
+  Public release of the Stanford of data used to pretrain **SleepFM**  
+  👉 https://bdsp.io/content/08vg8vqv2wdtwonc1ddy/1.0
+
+### 🚀 Demos
+- 📓 **End-to-End Inference Demo**  
+  `notebooks/demo.ipynb`
 
 ## 📖 Introduction
 
-Sleep is a fundamental biological process with broad implications for physical and mental health, yet its complex relationship with disease remains poorly understood. Polysomnography (PSG), the gold standard for sleep analysis, captures rich physiological signals but remains underutilized due to challenges in standardization, generalizability, and multimodal signal integration. To address this, we curated over 585,000 hours of PSG data from approximately 65,000 participants across multiple cohorts and developed SleepFM, a multimodal sleep foundation model trained with a novel contrastive learning approach that accommodates any PSG montage. SleepFM produces sleep embeddings that enable accurate prediction of future disease risk. We demonstrate that SleepFM achieves a C-Index and AUROC of at least 0.75 (Bonferroni-corrected p < 0.01) for 130 conditions, including death (C-Index: 0.84), heart failure (0.80), chronic kidney disease (0.79), dementia (0.85), stroke (0.78), atrial fibrillation (0.78), and myocardial infarction (0.81). The model generalizes well to the Sleep Heart Health Study (SHHS), a dataset excluded from pretraining, where it achieves strong transfer learning performance. In addition, SleepFM performs competitively on traditional sleep analysis tasks, including sleep staging (mean F1 scores: 0.70–0.78) and sleep apnea classification (0.69 and 0.87 accuracy for severity and presence, respectively). Further analysis reveals that different sleep stages and physiological signals carry distinct predictive power for specific diseases. This work demonstrates that foundation models can extract clinically meaningful features from raw PSG data, enabling scalable, label-efficient analysis and disease prediction. 
+Sleep is a fundamental biological process with broad implications for physical and mental health, yet its complex relationship with disease remains poorly understood. Polysomnography (PSG), the gold standard for sleep analysis, captures rich physiological signals but remains underutilized due to challenges in standardization, generalizability, and multimodal integration. To address these limitations, we developed SleepFM, a multimodal sleep foundation model trained with a novel contrastive learning approach that accommodates multiple PSG montages—the specific arrangements of electrodes and sensors used to record physiological signals during sleep. Trained on a curated dataset of over 585,000 hours of PSG recordings from approximately 65,000 participants across multiple cohorts, SleepFM produces latent sleep representations that capture the physiological and temporal structure of sleep and enable accurate prediction of future disease risk. SleepFM achieved a C-Index of at least 0.75 (Bonferroni-corrected p < 0.01) for 130 conditions, including all-cause mortality (C-Index: 0.84), dementia (0.85), myocardial infarction (0.81), heart failure (0.80), chronic kidney disease (0.79), stroke (0.78), and atrial fibrillation (0.78). Moreover, the model demonstrates strong transfer learning performance on a dataset from the Sleep Heart Health Study (SHHS), a dataset that was excluded from pretraining, and performs competitively with specialized sleep-staging models such as U-Sleep and YASA on common sleep analysis tasks, achieving mean F1 scores of 0.70–0.78 for sleep staging and accuracies of 0.69 and 0.87 for classifying sleep apnea severity and presence. This work shows that foundation models can extract clinically meaningful features from multi-modal sleep recordings, enabling scalable, label-efficient analysis and disease prediction.
 
 # 📖 Table of Contents
 1. [Installation](#installation)
@@ -53,7 +73,6 @@ conda activate sleepfm_env
 This codebase will serve as a framework that you can adapt to your dataset for pretraining and testing. Below, we outline the steps to pretrain and adapt the model on a publicly available dataset called [MESA](https://sleepdata.org/datasets/mesa). Please keep in mind that this dataset is small and will most likely not yield optimal results.
 
 **Note**: Please make sure to download the dataset with in your local path, with dataset name, `mesa`. Later on, we will need this path. 
-
 
 ## Preprocessing Dataset
 
@@ -113,6 +132,6 @@ For disease prediction task:
 }
 ```
 
-## 🪪 License
+## License
 
 [MIT License](LICENSE)
