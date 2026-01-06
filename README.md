@@ -1,13 +1,27 @@
 # SleepFM-Clinical
 
-## 🔥 News
-- [SleepFM](https://www.medrxiv.org/content/10.1101/2025.02.04.25321675v1) is published in Nature Medicine.
-- Model released:
-  - [Pretrained Base Model](sleepfm/checkpoints/model_base).
-  - [Finetuned Disease Prediction Model](sleepfm/checkpoints/model_diagnosis)
-  - [Finetuned Sleep Staging Model](sleepfm/checkpoints/model_sleep_staging)
-- [Stanford dataset](https://bdsp.io/content/08vg8vqv2wdtwonc1ddy/1.0) released. This is the majority of the dataset that was used to pretrain our foundation model. 
-- [End-to-End Demo](notebooks/demo.ipynb) released. 
+## 🔥 News & Updates
+
+### 📰 Publication
+- **SleepFM** has been published in **Nature Medicine**  
+  👉 https://www.medrxiv.org/content/10.1101/2025.02.04.25321675v1
+
+### 🤖 Model Releases
+- **Pretrained Base Model**  
+  `sleepfm/checkpoints/model_base`
+- **Finetuned Disease Prediction Model**  
+  `sleepfm/checkpoints/model_diagnosis`
+- **Finetuned Sleep Staging Model**  
+  `sleepfm/checkpoints/model_sleep_staging`
+
+### 📊 Dataset Release
+- **Stanford Sleep Dataset**  
+  Public release of the Stanford of data used to pretrain **SleepFM**  
+  👉 https://bdsp.io/content/08vg8vqv2wdtwonc1ddy/1.0
+
+### 🚀 Demos
+- 📓 **End-to-End Inference Demo**  
+  `notebooks/demo.ipynb`
 
 ## 📖 Introduction
 
@@ -59,7 +73,6 @@ conda activate sleepfm_env
 This codebase will serve as a framework that you can adapt to your dataset for pretraining and testing. Below, we outline the steps to pretrain and adapt the model on a publicly available dataset called [MESA](https://sleepdata.org/datasets/mesa). Please keep in mind that this dataset is small and will most likely not yield optimal results.
 
 **Note**: Please make sure to download the dataset with in your local path, with dataset name, `mesa`. Later on, we will need this path. 
-
 
 ## Preprocessing Dataset
 
@@ -119,6 +132,6 @@ For disease prediction task:
 }
 ```
 
-## 🪪 License
+## License
 
 [MIT License](LICENSE)
