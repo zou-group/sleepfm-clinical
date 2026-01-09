@@ -122,13 +122,13 @@ For disease prediction task:
 ## BibTeX
 
 ```bibtex
-@article{thapa2025multimodal,
-  title={A Multimodal Sleep Foundation Model Developed with 500K Hours of Sleep Recordings for Disease Predictions},
-  author={Thapa, Rahul and Kj{\ae}r, Magnus Ruud and He, Bryan and Covert, Ian and Moore, Hyatt and Hanif, Umaer and Ganjoo, Gauri and Westover, Brandon M and Jennum, Poul and Brink-Kj{\ae}r, Andreas and others},
-  journal={medRxiv},
-  pages={2025--02},
-  year={2025},
-  publisher={Cold Spring Harbor Laboratory Press}
+@article{thapa2026multimodal,
+  title={A multimodal sleep foundation model for disease prediction},
+  author={Thapa, Rahul and Kjaer, Magnus Ruud and He, Bryan and Covert, Ian and Moore IV, Hyatt and Hanif, Umaer and Ganjoo, Gauri and Westover, M Brandon and Jennum, Poul and Brink-Kjaer, Andreas and others},
+  journal={Nature Medicine},
+  pages={1--11},
+  year={2026},
+  publisher={Nature Publishing Group US New York}
 }
 ```
 
