@@ -130,7 +130,7 @@ def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, spli
 
     with torch.no_grad():
         for item in tqdm(test_loader, desc="Evaluating"):
-            if model_name in ["DiagnosisFinetuneFullLSTMCOXPHWithDemo""]:
+            if model_name in ["DiagnosisFinetuneFullLSTMCOXPHWithDemo"]:
                 x_data, event_times, is_event, demo_feats, padded_matrix, hdf5_path_list = item
                 x_data, event_times, is_event, demo_feats, padded_matrix, hdf5_path_list = x_data.to(device), event_times.to(device), is_event.to(device), demo_feats.to(device), padded_matrix.to(device), list(hdf5_path_list)
                 outputs = model(x_data, padded_matrix, demo_feats)
