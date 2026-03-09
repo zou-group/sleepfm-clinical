@@ -1,0 +1,8 @@
+{
+  "python.defaultInterpreterPath": "/home/yangchen/miniforge3/envs/sleepfm_env/bin/python",
+  "python.condaPath": "/home/yangchen/miniforge3/bin/conda",
+  "jupyter.jupyterServerType": "local",
+  "jupyter.kernelspecPaths": [
+    "/home/yangchen/.local/share/jupyter/kernels"
+  ]
+}
