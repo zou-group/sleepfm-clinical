@@ -133,7 +133,7 @@ def finetune_sleep_staging(config_path, channel_groups_path, checkpoint_path, sp
         checkpoint_path = os.path.join(output, "checkpoint.pth")
         if os.path.isfile(checkpoint_path):
             logger.info(f"Loading checkpoint '{checkpoint_path}'")
-            checkpoint = torch.load(checkpoint_path)
+            checkpoint = torch.load(checkpoint_path, weights_only=False)
             start_epoch = checkpoint['epoch']
             model.load_state_dict(checkpoint['model_state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer_state_dict'])

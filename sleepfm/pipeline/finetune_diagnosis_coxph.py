@@ -16,7 +16,7 @@ from models.dataset import diagnosis_finetune_full_coxph_collate_fn as collate_f
 from models.models import DiagnosisFinetuneFullLSTMCOXPHWithDemo, DiagnosisFinetuneDemoOnlyEmbed, DiagnosisFullSupervisedLSTMCOXPHWithDemoEmbed
 from tqdm import tqdm
 import pandas as pd
-from torch.cuda.amp import autocast, GradScaler
+
 import random
 
 def set_seed(seed=10):
@@ -179,7 +179,7 @@ def finetune_diagnosis(config_path, channel_groups_path, checkpoint_path, split_
         checkpoint_path = os.path.join(output, "checkpoint.pth")
         if os.path.isfile(checkpoint_path):
             logger.info(f"Loading checkpoint '{checkpoint_path}'")
-            checkpoint = torch.load(checkpoint_path)
+            checkpoint = torch.load(checkpoint_path, weights_only=False)
             start_epoch = checkpoint['epoch']
             model.load_state_dict(checkpoint['model_state_dict'])
             optimizer.load_state_dict(checkpoint['optimizer_state_dict'])

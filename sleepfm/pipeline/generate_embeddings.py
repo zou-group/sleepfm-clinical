@@ -105,7 +105,7 @@ def generate_embeddings(
     logger.info(f'Trainable parameters: {total_params / 1e6:.2f} million')
     logger.info(f'Number of layers: {total_layers}')
 
-    checkpoint = torch.load(os.path.join(model_path, "best.pt"))
+    checkpoint = torch.load(os.path.join(model_path, "best.pt"), weights_only=False)
     model.load_state_dict(checkpoint["state_dict"])
     model.eval()
 
