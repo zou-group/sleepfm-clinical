@@ -198,7 +198,7 @@ def finetune_diagnosis(config_path, channel_groups_path, checkpoint_path, split_
         model.train()
         running_loss = 0.0
         for i, item in enumerate(tqdm(train_loader, desc=f"Epoch {epoch + 1}/{num_epochs}")):
-            if model_name in ["DiagnosisFinetuneFullLSTMCOXPHWithDemo""]:
+            if model_name in ["DiagnosisFinetuneFullLSTMCOXPHWithDemo"]:
                 x_data, event_times, is_event, demo_feats, padded_matrix, hdf5_path_list = item
                 x_data, event_times, is_event, demo_feats, padded_matrix, hdf5_path_list = x_data.to(device), event_times.to(device), is_event.to(device), demo_feats.to(device), padded_matrix.to(device), list(hdf5_path_list)
                 hazards = model(x_data, padded_matrix, demo_feats)

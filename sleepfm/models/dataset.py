@@ -332,54 +332,6 @@ def sleep_event_finetune_full_collate_fn(batch):
     return x_data, y_data, padded_mask, hdf5_path_list
 
 
-def sleep_event_finetune_full_collate_fn(batch):
-    x_data, y_data, max_channels_list, max_seq_len_list, hdf5_path_list = zip(*batch)
-
-    num_channels = max(max_channels_list)
-
-    max_seq_len_temp = max([item.size(1) for item in x_data])
-    # Determine the max sequence length for padding
-    if max_seq_len_list[0] is None:
-        max_seq_len = max_seq_len_temp
-    else:
-        max_seq_len = min(max_seq_len_temp, max_seq_len_list[0])
-
-    padded_x_data = []
-    padded_y_data = []
-    padded_mask = []
-
-    for x_item, y_item in zip(x_data, y_data):
-        # Get the shape of x_item
-        c, s, e = x_item.size()
-        c = min(c, num_channels)
-        s = min(s, max_seq_len)  # Ensure the sequence length doesn't exceed max_seq_len
-
-        # Create a padded tensor and a mask tensor for x_data
-        padded_x_item = torch.zeros((num_channels, max_seq_len, e))
-        mask = torch.ones((num_channels, max_seq_len))
-
-        # Copy the actual data to the padded tensor and set the mask for real data
-        padded_x_item[:c, :s, :e] = x_item[:c, :s, :e]
-        mask[:c, :s] = 0  # 0 for real data, 1 for padding
-
-        # Pad y_data with zeros to match max_seq_len
-        padded_y_item = torch.zeros(max_seq_len)
-        padded_y_item[:s] = y_item[:s]
-
-        # Append padded items to lists
-        padded_x_data.append(padded_x_item)
-        padded_y_data.append(padded_y_item)
-        padded_mask.append(mask)
-
-    # Stack all tensors into a batch
-    x_data = torch.stack(padded_x_data)
-    y_data = torch.stack(padded_y_data)
-    padded_mask = torch.stack(padded_mask)
-    
-    return x_data, y_data, padded_mask, hdf5_path_list
-
-
-
 class DiagnosisFinetuneFullCOXPHDataset(Dataset):
     def __init__(self, 
                  config,
