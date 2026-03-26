@@ -220,7 +220,7 @@ def pretrain(
     best_loss = math.inf
 
     if os.path.isfile(os.path.join(output, "checkpoint.pt")):
-        checkpoint = torch.load(os.path.join(output, "checkpoint.pt"))
+        checkpoint = torch.load(os.path.join(output, "checkpoint.pt"), weights_only=False)
         model.load_state_dict(checkpoint[f"state_dict"])
 
         # Loading temperature and other checkpointed parameters

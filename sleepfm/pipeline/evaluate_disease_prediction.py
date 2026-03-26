@@ -89,7 +89,7 @@ def evaluate_diagnosis_coxph(config_path, channel_groups_path, output_path, spli
     # checkpoint_path = os.path.join(output_path, "checkpoint.pth")
     if os.path.isfile(checkpoint_path):
         logger.info(f"Loading checkpoint '{checkpoint_path}'")
-        checkpoint = torch.load(checkpoint_path)
+        checkpoint = torch.load(checkpoint_path, weights_only=False)
         # model.load_state_dict(checkpoint["model_state_dict"])
         model.load_state_dict(checkpoint)
         logger.info("Checkpoint loaded successfully")

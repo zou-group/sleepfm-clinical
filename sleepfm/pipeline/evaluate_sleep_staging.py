@@ -62,7 +62,7 @@ def evaluate_sleep_staging(config_path, channel_groups_path, output_path, split,
     checkpoint_path = os.path.join(output_path, "best.pth")
     if os.path.isfile(checkpoint_path):
         logger.info(f"Loading checkpoint '{checkpoint_path}'")
-        checkpoint = torch.load(checkpoint_path)
+        checkpoint = torch.load(checkpoint_path, weights_only=False)
         model.load_state_dict(checkpoint)
         logger.info("Checkpoint loaded successfully")
     else:

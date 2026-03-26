@@ -61,7 +61,7 @@ class SetTransformerDataset(Dataset):
     def __init__(self, 
                  config,
                  channel_groups,
-                 hdf5_paths=[],
+                 hdf5_paths=None,
                  split="pretrain"):
 
         self.config = config
@@ -71,7 +71,7 @@ class SetTransformerDataset(Dataset):
             channel_like += channel_groups[modality_type]
         channel_like = set(channel_like)
 
-        if len(hdf5_paths) == 0:
+        if not hdf5_paths:
             data_path = config["data_path"]
             hdf5_paths = load_data(config["split_path"])[split]
             hdf5_paths = [os.path.join(data_path, path) for path in hdf5_paths]
@@ -173,7 +173,7 @@ class SleepEventClassificationDataset(Dataset):
     def __init__(self, 
                  config,
                  channel_groups,
-                 hdf5_paths=[],
+                 hdf5_paths=None,
                  split="train"):
 
         self.config = config
@@ -384,7 +384,7 @@ class DiagnosisFinetuneFullCOXPHDataset(Dataset):
     def __init__(self, 
                  config,
                  channel_groups,
-                 hdf5_paths=[],
+                 hdf5_paths=None,
                  split="train"):
 
         self.config = config
@@ -481,7 +481,7 @@ def diagnosis_finetune_full_coxph_collate_fn(batch):
 
     num_channels = max(max_channels_list)
 
-    if max_seq_len_list[0] == None:
+    if max_seq_len_list[0] is None:
         max_seq_len = max([item.size(1) for item in x_data])
     else:
         max_seq_len = max_seq_len_list[0]
@@ -517,7 +517,7 @@ class DiagnosisFinetuneFullCOXPHWithDemoDataset(Dataset):
     def __init__(self, 
                  config,
                  channel_groups,
-                 hdf5_paths=[],
+                 hdf5_paths=None,
                  split="train"):
 
         self.config = config
@@ -618,7 +618,7 @@ def diagnosis_finetune_full_coxph_with_demo_collate_fn(batch):
 
     num_channels = max(max_channels_list)
 
-    if max_seq_len_list[0] == None:
+    if max_seq_len_list[0] is None:
         max_seq_len = max([item.size(1) for item in x_data])
     else:
         max_seq_len = max_seq_len_list[0]
@@ -655,7 +655,7 @@ class DiagnosisFinetuneDemoOnlyDataset(Dataset):
     def __init__(self, 
                  config,
                  channel_groups,
-                 hdf5_paths=[],
+                 hdf5_paths=None,
                  split="train"):
         self.config = config
         self.channel_groups = channel_groups
@@ -738,7 +738,7 @@ class SupervisedDiagnosisFullCOXPHWithDemoDataset(Dataset):
     def __init__(self, 
                  config,
                  channel_groups,
-                 hdf5_paths=[],
+                 hdf5_paths=None,
                  split="train"):
 
         self.config = config
